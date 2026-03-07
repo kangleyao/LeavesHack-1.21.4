@@ -8,5 +8,9 @@
 - **Minecraft 版本**: 1.21.4
 - **升级者**: kangleyao
 
+## 联系方式
+- **QQ**: 2284736322
+- **GitHub Issues**: https://github.com/kangleyao/LeavesHack-1.21.4/issues
+
 ## 注意事项
 https://github.com/MrBZBZ/LeavesHack
