@@ -11,6 +11,9 @@ bin/
 .classpath
 .project
 
+# Claude
+.claude
+
 # Minecraft
 run
 logs
