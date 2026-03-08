@@ -20,7 +20,7 @@ public class LeavesHack extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        LOG.info("Initializing LeavesHack");
+        LOG.info("Initializing LeavesHack V1.3.0 by Leaves_aws | 1.21.4 Updated by kangleyao");
 
         // Modules
         Modules.get().add(new AutoCity());
@@ -34,6 +34,13 @@ public class LeavesHack extends MeteorAddon {
         Modules.get().add(new AntiAntiXray());
         Modules.get().add(new AutoRefreshTrade());
         Modules.get().add(new AutoBackdoor());
+
+        // V1.3.0 New Modules
+        Modules.get().add(new AutoLogin());
+        Modules.get().add(new AutoTorch());
+        Modules.get().add(new LegitNoFall());
+        Modules.get().add(new Printer());
+        Modules.get().add(new ScaffoldPlus());
 
         // Commands
         Commands.add(new CommandExample());

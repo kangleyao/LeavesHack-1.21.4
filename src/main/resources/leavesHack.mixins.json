@@ -3,8 +3,7 @@
   "package": "com.dev.leavesHack.asm",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "mixin.MixinClientPlayerEntity",
-    "mixin.TitleScreenMixin"
+    "mixin.MixinClientPlayerEntity"
   ],
   "injectors": {
     "defaultRequire": 1

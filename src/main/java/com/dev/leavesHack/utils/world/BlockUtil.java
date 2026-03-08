@@ -4,6 +4,7 @@ import com.dev.leavesHack.modules.AutoCity;
 import com.dev.leavesHack.utils.rotation.Rotation;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
@@ -22,6 +23,8 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +72,10 @@ public class BlockUtil {
     }
     public static boolean canClick(BlockPos pos) {
         return mc.world.getBlockState(pos).isSolid() && (!(shiftBlocks.contains(getBlock(pos)) || getBlock(pos) instanceof BedBlock) || mc.player.isSneaking());
+    }
+
+    public static boolean canClick(BlockPos pos, boolean ignoreSneak) {
+        return mc.world.getBlockState(pos).isSolid() && (!(shiftBlocks.contains(getBlock(pos)) || getBlock(pos) instanceof BedBlock) || (mc.player.isSneaking() || ignoreSneak));
     }
 
     public static boolean canPlace(BlockPos pos) {
@@ -162,6 +169,41 @@ public class BlockUtil {
         }
         return side;
     }
+
+    public static ArrayList<Direction> getPlaceSides(BlockPos pos, Predicate<Direction> directionPredicate) {
+        ArrayList<Direction> sides = new ArrayList<>();
+        if (pos == null) return sides;
+
+        for (Direction i : Direction.values()) {
+            if (directionPredicate != null && !directionPredicate.test(i)) continue;
+
+            BlockPos neighbor = pos.offset(i);
+            BlockState neighborState = mc.world.getBlockState(neighbor);
+            if (canClick(neighbor) && !neighborState.isReplaceable()) {
+                if (!isGrimDirection(neighbor, i.getOpposite())) continue;
+                sides.add(i);
+            }
+        }
+        return sides;
+    }
+
+    public static ArrayList<Direction> getPlaceSides(BlockPos pos, Predicate<Direction> directionPredicate, boolean ignoreSneak) {
+        ArrayList<Direction> sides = new ArrayList<>();
+        if (pos == null) return sides;
+
+        for (Direction i : Direction.values()) {
+            if (directionPredicate != null && !directionPredicate.test(i)) continue;
+
+            BlockPos neighbor = pos.offset(i);
+            BlockState neighborState = mc.world.getBlockState(neighbor);
+            if (canClick(neighbor, ignoreSneak) && !neighborState.isReplaceable()) {
+                if (!isGrimDirection(neighbor, i.getOpposite())) continue;
+                sides.add(i);
+            }
+        }
+        return sides;
+    }
+
     public static boolean canSee(BlockPos pos, Direction side) {
         Vec3d testVec = pos.toCenterPos().add(side.getVector().getX() * 0.5, side.getVector().getY() * 0.5, side.getVector().getZ() * 0.5);
         HitResult result = mc.world.raycast(new RaycastContext(getEyesPos(), testVec, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, mc.player));
@@ -251,6 +293,26 @@ public class BlockUtil {
     }
     public static void clickBlock(BlockPos pos, Direction side, boolean rotate) {
         Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + side.getVector().getX() * 0.5, pos.getY() + 0.5 + side.getVector().getY() * 0.5, pos.getZ() + 0.5 + side.getVector().getZ() * 0.5);
+        if (rotate) Rotation.snapAt(directionVec);
+        mc.player.swingHand(Hand.MAIN_HAND);
+        BlockHitResult result = new BlockHitResult(directionVec, side, pos, false);
+        mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);
+        if (rotate) Rotation.snapBack();
+    }
+
+    public static boolean clientCanPlace(BlockPos pos, boolean ignoreCrystal) {
+        if (!canReplace(pos)) return false;
+        return !hasEntity(pos, ignoreCrystal);
+    }
+
+    public static void placeSlabBlock(BlockPos pos, Direction side, Direction slabSide, boolean rotate) {
+        clickSlabBlock(pos.offset(side), side.getOpposite(), slabSide, rotate);
+    }
+
+    public static void clickSlabBlock(BlockPos pos, Direction side, Direction slabSide, boolean rotate) {
+        Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + side.getVector().getX() * 0.5, pos.getY() + 0.5 + side.getVector().getY() * 0.5, pos.getZ() + 0.5 + side.getVector().getZ() * 0.5);
+        if (slabSide == Direction.DOWN) directionVec = new Vec3d(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+        if (slabSide == Direction.UP) directionVec = new Vec3d(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
         if (rotate) Rotation.snapAt(directionVec);
         mc.player.swingHand(Hand.MAIN_HAND);
         BlockHitResult result = new BlockHitResult(directionVec, side, pos, false);
