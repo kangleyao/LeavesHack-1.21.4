@@ -1,13 +1,12 @@
 # LeavesHack V1.3.0
 
-**Meteor 客户端插件**
-致力于改善无政府服务器的生存体验
-原作者：Leaves_awa | 1.21.4适配：kangleyao
-神秘群聊欢迎吹水：1076456572
-点击链接加入群聊【LeavesHack-user-group】：https://qm.qq.com/q/YwajlOYRGw
+**Meteor 客户端插件**  
+致力于改善无政府服务器的生存体验  
+神秘群聊欢迎吹水：1076456572  
+点击链接加入群聊【LeavesHack-user-group】：https://qm.qq.com/q/YwajlOYRGw  
 ## 注意事项
 - 这个东西是我玩3c3u写的，随缘更新功能，readme的更新也有滞后性，我尽量把每个模块的教程写上
-- 已升级到Minecraft 1.21.4，支持最新版本的2b2t和3c3u服务器
+- 懒得升级了，什么时候2b2t的客户端从1.21.1升到更高版本再升级
 - Meteor本身不支持中文渲染，可以通过下载现代化UI和模组菜单，打开现代化UI的文本引擎再关闭Meteor的CustomFont解决
 - 理论上AntiAntiXray可以绕过其他服务器的假矿或其他反矿透插件，如果腐竹不给开挂，而且你使用这个插件导致被封号等等后果请自负
 - 这个插件随缘更新一些新的模块，我在玩什么就会更新什么-_-
@@ -17,13 +16,12 @@
   </div>
 ## 功能
 截至目前更新的功能，基本上默认参数就能在3c使用：  
-| 模块 | 描述 | 注意事项 |
+| 模块 | 描述 | 注意事项 |  
 | :----: | --- | -------- |
 | AntiAntiXray | 雷达扫描矿透 | 不装Baritone开功能崩端 |
 |Aura | 可在3c3u使用的不卡脚的杀戮 | 无 |
 | AutoArmorPlus | 自动穿甲（主要为了和FireworkElytraFly联动自动穿鞘翅）| 无 |
 | AutoCity | 自动挖脚（顺手的事，记住咱是生存端）| 无 |
-| AutoLogin | 自动登录服务器 | 在设置中填写密码，检测到登录提示自动发送/login命令 |
 |AutoPlaceSlab | 自动放半砖| 无 |
 | AutoRefreshTrade | 自动刷新村民交易的附魔书| 无 |
 | AutoTorch | 自动放火把(白天可用+无光区域渲染) | 无 |
@@ -32,7 +30,7 @@
 | NukerPlus | 绕过3c3u的Nuker| 无 |
 | ModuleList | 重写模块列表渲染| 无 |
 | PacketMine | 绕过3c3u的发包挖掘（无双挖）| 无 |
-| Printer | 投影打印机(改进yaw欺骗) | 测试中，不装投影开功能崩端 |
+| Printer | 投影打印机 | 测试中，不装投影开功能崩端 |
 | ScaffoldPlus | 自动搭路(可自适应半砖) | 放下半砖的时候不稳定，斜着走的时候慢一点不然容易坠机 |
 # 部分教程：
 ## AntiAntiXray  
