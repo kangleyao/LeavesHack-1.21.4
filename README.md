@@ -1,16 +1,16 @@
-# LeavesHack V1.2.7（1.21.4）
+# LeavesHack V1.4.0 (1.21.4)
 
-**Meteor 客户端插件**
-致力于改善无政府服务器的生存体验
+Meteor Client addon focused on improving the anarchy survival experience.
 
-## 版本信息
-- **当前版本**: 1.3.0
-- **Minecraft 版本**: 1.21.4
-- **升级者**: kangleyao
+## Version Info
+- Current Version: 1.4.0
+- Minecraft Version: 1.21.4
+- Original Author: Leaves_awa
+- 1.21.4 Update: kangleyao
 
-## 联系方式
-- **QQ**: 2284736322
-- **GitHub Issues**: https://github.com/kangleyao/LeavesHack-1.21.4/issues
+## Contact
+- QQ: 2284736322
+- GitHub Issues: https://github.com/kangleyao/LeavesHack-1.21.4/issues
 
-## 注意事项
-https://github.com/MrBZBZ/LeavesHack
+## Notes
+- Original project reference: https://github.com/MrBZBZ/LeavesHack

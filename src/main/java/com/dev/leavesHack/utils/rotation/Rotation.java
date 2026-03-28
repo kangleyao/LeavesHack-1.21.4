@@ -1,5 +1,6 @@
 package com.dev.leavesHack.utils.rotation;
 
+import com.dev.leavesHack.modules.GlobalSetting;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Box;
@@ -7,25 +8,36 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 public class Rotation {
     public static float rotationYaw = 0;
     public static float rotationPitch = 0;
+
     public static void snapAt(float yaw, float pitch) {
-        sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
+        if (mc.player == null || mc.getNetworkHandler() == null) return;
+
+        if (useGrimRotation()) sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), false));
+        else sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), false));
     }
+
     public static void snapBack() {
+        if (mc.player == null || mc.getNetworkHandler() == null || !shouldSnapBack()) return;
         sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), rotationYaw, rotationPitch, mc.player.isOnGround(), false));
     }
+
     public static void sendPacket(Packet<?> packet) {
-        mc.getNetworkHandler().sendPacket(packet);
+        if (mc.getNetworkHandler() != null) mc.getNetworkHandler().sendPacket(packet);
     }
+
     public static void snapAt(Vec3d directionVec) {
         float[] angle = getRotation(directionVec);
         snapAt(angle[0], angle[1]);
     }
+
     public static void snapAt(Box box) {
         snapAt(getClosestPointToEye(mc.player.getEyePos(), box));
     }
+
     public static Vec3d getClosestPointToEye(Vec3d eyePos, Box box) {
         double x = eyePos.x;
         double y = eyePos.y;
@@ -42,6 +54,7 @@ public class Rotation {
 
         return new Vec3d(x, y, z);
     }
+
     public static float[] getRotation(Vec3d eyesPos, Vec3d vec) {
         double diffX = vec.x - eyesPos.x;
         double diffY = vec.y - eyesPos.y;
@@ -49,10 +62,18 @@ public class Rotation {
         double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
         float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0f;
         float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, diffXZ)));
-        return new float[]{MathHelper.wrapDegrees(yaw), MathHelper.wrapDegrees(pitch)};
+        return new float[] { MathHelper.wrapDegrees(yaw), MathHelper.wrapDegrees(pitch) };
     }
+
     public static float[] getRotation(Vec3d vec) {
-        Vec3d eyesPos = mc.player.getEyePos();
-        return getRotation(eyesPos, vec);
+        return getRotation(mc.player.getEyePos(), vec);
+    }
+
+    private static boolean useGrimRotation() {
+        return GlobalSetting.INSTANCE == null || GlobalSetting.INSTANCE.grimRotation.get();
+    }
+
+    private static boolean shouldSnapBack() {
+        return GlobalSetting.INSTANCE == null || GlobalSetting.INSTANCE.snapBack.get();
     }
 }

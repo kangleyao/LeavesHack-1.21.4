@@ -18,7 +18,6 @@ import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -161,7 +160,7 @@ public class AutoRefreshTrade extends Module {
                         String name = Enchantment.getName(entry, level).getString();
                         mc.player.sendMessage(Text.of("[LeavesHack]本次结果 " + name), false);
                         for (RegistryKey<Enchantment> enchantmentKey : enchantmentList.get()){
-                            if (hasEnchantments(sellStack, enchantmentKey) && level >= enchantmentLevel.get()) {
+                            if (hasEnchantment(sellStack, enchantmentKey) && level >= enchantmentLevel.get()) {
                                 find.set(true);
                                 mc.player.sendMessage(Text.of("[LeavesHack]:已找到所需附魔"), false);
                                 return;
@@ -227,15 +226,11 @@ public class AutoRefreshTrade extends Module {
         }
         return (VillagerEntity)(target);
     }
-    public static boolean hasEnchantments(ItemStack itemStack, RegistryKey<Enchantment>... enchantments) {
+    public static boolean hasEnchantment(ItemStack itemStack, RegistryKey<Enchantment> enchantment) {
         if (itemStack.isEmpty()) return false;
         Object2IntMap<RegistryEntry<Enchantment>> itemEnchantments = new Object2IntArrayMap<>();
         getEnchantments(itemStack, itemEnchantments);
-
-        for (RegistryKey<Enchantment> enchantment : enchantments) {
-            if (!hasEnchantment(itemEnchantments, enchantment)) return false;
-        }
-        return true;
+        return hasEnchantment(itemEnchantments, enchantment);
     }
     private static boolean hasEnchantment(Object2IntMap<RegistryEntry<Enchantment>> itemEnchantments, RegistryKey<Enchantment> enchantmentKey) {
         for (RegistryEntry<Enchantment> enchantment : itemEnchantments.keySet()) {

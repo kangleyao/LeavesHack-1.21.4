@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.hud.HudGroup;
 import meteordevelopment.meteorclient.systems.modules.Category;
+import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import org.slf4j.Logger;
 
@@ -20,33 +21,38 @@ public class LeavesHack extends MeteorAddon {
 
     @Override
     public void onInitialize() {
-        LOG.info("Initializing LeavesHack V1.3.0 by Leaves_aws | 1.21.4 Updated by kangleyao");
+        LOG.info("Initializing LeavesHack V1.4.0 by Leaves_aws | 1.21.4 Updated by kangleyao");
 
         // Modules
-        Modules.get().add(new AutoCity());
-        Modules.get().add(new AutoPlaceSlab());
-        Modules.get().add(new NukerPlus());
-        Modules.get().add(new ModuleList());
-        Modules.get().add(new PacketMine());
-        Modules.get().add(new Aura());
-        Modules.get().add(new AutoArmorPlus());
-        Modules.get().add(new FireworkElytraFly());
-        Modules.get().add(new AntiAntiXray());
-        Modules.get().add(new AutoRefreshTrade());
-        Modules.get().add(new AutoBackdoor());
-
-        // V1.3.0 New Modules
-        Modules.get().add(new AutoLogin());
-        Modules.get().add(new AutoTorch());
-        Modules.get().add(new LegitNoFall());
-        Modules.get().add(new Printer());
-        Modules.get().add(new ScaffoldPlus());
+        add(new GlobalSetting());
+        add(new AutoTree());
+        add(new AutoLogin());
+        add(new Printer());
+        add(new AutoTorch());
+        add(new ScaffoldPlus());
+        add(new LegitNoFall());
+        add(new AutoCity());
+        add(new AutoPlaceBlock());
+        add(new AutoPlaceSlab());
+        add(new NukerPlus());
+        add(new ModuleList());
+        add(new PacketMine());
+        add(new Aura());
+        add(new AutoArmorPlus());
+        add(new FireworkElytraFly());
+        add(new AntiAntiXray());
+        add(new AutoRefreshTrade());
+        add(new AutoBackdoor());
 
         // Commands
         Commands.add(new CommandExample());
 
         // HUD
         Hud.get().register(HudExample.INFO);
+    }
+
+    private void add(Module module) {
+        Modules.get().add(module);
     }
 
     @Override
